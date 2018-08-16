@@ -1,6 +1,6 @@
 {
   "name": "react-json-to-table",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Convert json to HTML <table>",
   "private": false,
   "main": "build/lib/components/index.js",
