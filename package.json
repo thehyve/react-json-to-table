@@ -30,13 +30,17 @@
     "build-js": "react-scripts-ts build",
     "build": "npm-run-all -p build-sass-to-css build-js",
     "build-lib": "tsc && npm run build-sass-to-css && npm run copy-css-to-lib",
+    "watch-lib": "tsc -w && npm run watch-sass-to-css && npm run watch-css-to-lib",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "copy-css-to-lib": "npm-run-all -s copy-base-css copy-component-css",
+    "watch-css-to-lib": "npm-run-all -s watch-base-css watch-component-css",
     "copy-base-css": "cpx \"./src/**/*.css\" ./build/lib/",
     "copy-component-css": "cpx \"./src/components/**/*.css\" ./build/lib/components",
+    "watch-base-css": "cpx \"./src/**/*.css\" ./build/lib/",
+    "watch-component-css": "cpx \"./src/components/**/*.css\" ./build/lib/components",
     "build-sass-to-css": "node-sass-chokidar src/ -o src/",
-    "watch-sass-to-css": "node-sass-chokidar src/ -o src/ --watch --recursive"
+    "watch-sass-to-css": "node-sass-chokidar src/ -o src/ --watch"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.13",
