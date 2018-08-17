@@ -1,7 +1,7 @@
-import * as React from 'react';
+import * as React from "react";
 
 import "./JsonToTable.css";
-import { JSONObjectKeys, JSONObjectType } from './JsonToTableUtils';
+import { JSONObjectKeys, JSONObjectType } from "./JsonToTableUtils";
 import JSONToTableUtils from "./JsonToTableUtils";
 
 export interface IJsonToTableProps {
@@ -10,7 +10,8 @@ export interface IJsonToTableProps {
     styles?: any;
 }
 
-export default class JsonToTable extends React.Component<IJsonToTableProps, {}> {
+export default class JsonToTable extends React.Component<IJsonToTableProps,
+    {}> {
     // constructor
     constructor(props: any, context: any) {
         super(props, context);
@@ -28,7 +29,7 @@ export default class JsonToTable extends React.Component<IJsonToTableProps, {}> 
         const phrase = [];
         let tmp;
         if (header) {
-            phrase.push(this.renderRowHeader(header, 2));
+            phrase.push(this.renderRowHeader(header));
         }
 
         const objType: JSONObjectType = JSONToTableUtils.getObjectType(obj);
@@ -38,7 +39,8 @@ export default class JsonToTable extends React.Component<IJsonToTableProps, {}> 
                 tmp = header ? (
                     <table>
                         <tbody
-                            key={`__j2t_${JSONObjectType.ObjectWithNonNumericKeys.toString()}`}>
+                            key={`__j2t_${JSONObjectType.ObjectWithNonNumericKeys.toString()}`}
+                        >
                         {this.renderRows(obj)}
                         </tbody>
                     </table>
@@ -60,32 +62,42 @@ export default class JsonToTable extends React.Component<IJsonToTableProps, {}> 
         }
         phrase.push(tmp);
         const retval = phrase.map(p => p);
-        return header ? <tr>{this.renderCell(retval, 2)}</tr> : retval;
+        return header ? (
+            <tr>{this.renderCell({content: retval, colspan: 2})}</tr>
+        ) : (
+            retval
+        );
     };
 
-    private renderCell = (obj: any, colspan?: number | undefined) => {
-        return <td colSpan={colspan ? colspan : 0} key={`__j2t_${obj.toString()}`}>{obj}</td>;
+    private renderCell = (params: {
+        content: any;
+        colspan?: number;
+        isHeader?: boolean;
+    }) => {
+        const {content, colspan, isHeader} = params;
+        const valueDisplay = isHeader ? <strong>{content}</strong> : content;
+        return <td colSpan={colspan ? colspan : 0}>{valueDisplay}</td>;
     };
 
     private renderHeader = (labels: any[]) => {
         return (
             <tr>
                 {labels.map((v: string) => {
-                    return this.renderCell(<strong>{v}</strong>);
+                    return this.renderCell({content: v});
                 })}
             </tr>
         );
     };
 
-    private renderValues(values: string[]) {
+    private renderValues = (values: string[]) => {
         return (
             <tr>
                 {values.map(k => {
-                    return this.renderCell(k);
+                    return this.renderCell({content: k});
                 })}
             </tr>
         );
-    }
+    };
 
     private renderRowValues = (anArray: any[], labels: any[]) => {
         return anArray.map((item, idx) => {
@@ -95,7 +107,7 @@ export default class JsonToTable extends React.Component<IJsonToTableProps, {}> 
                         const isValuePrimitive =
                             JSONToTableUtils.getObjectType(k) === JSONObjectType.Primitive;
                         return isValuePrimitive
-                            ? this.renderCell(item[k])
+                            ? this.renderCell({content: item[k]})
                             : this.renderObject(item[k], k);
                     })}
                 </tr>
@@ -105,7 +117,9 @@ export default class JsonToTable extends React.Component<IJsonToTableProps, {}> 
 
     private parseArray = (anArray: any[]): any => {
         const phrase = [];
-        const labels: JSONObjectKeys = JSONToTableUtils.getUniqueObjectKeys(anArray);
+        const labels: JSONObjectKeys = JSONToTableUtils.getUniqueObjectKeys(
+            anArray
+        );
         if (JSONToTableUtils.checkLabelTypes(labels.labels) !== "number") {
             phrase.push(this.renderHeader(labels.labels));
             phrase.push(this.renderRowValues(anArray, labels.labels));
@@ -115,27 +129,27 @@ export default class JsonToTable extends React.Component<IJsonToTableProps, {}> 
         return phrase;
     };
 
-    private renderRow(k: string, v: string | number) {
+    private renderRow = (k: string, v: string | number) => {
         return (
-            <tr>
+            <tr key={`__j2t_${k}`}>
                 <td>
                     <strong>{k}</strong>
                 </td>
                 <td>{v}</td>
             </tr>
         );
-    }
+    };
 
-    private renderRowHeader(label: string, colspan: number | undefined) {
+    private renderRowHeader = (label: string) => {
         return (
             <div>
                 <strong>{label}</strong>
             </div>
         );
-    }
+    };
 
     private renderRows = (obj: any, labelKey?: any) => {
-        return Object.keys(obj).map(k => {
+        return Object.keys(obj).map((k, idx) => {
             const value = obj[k];
             const isValuePrimitive =
                 JSONToTableUtils.getObjectType(value) === JSONObjectType.Primitive;
