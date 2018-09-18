@@ -12,7 +12,8 @@
     "jest-cli": "^23.5.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "react-scripts-ts": "2.17.0"
+    "react-scripts-ts": "2.17.0",
+    "tsc": "^1.20150623.0"
   },
   "repository": {
     "type": "git",

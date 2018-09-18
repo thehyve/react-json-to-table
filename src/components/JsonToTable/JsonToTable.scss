@@ -1,33 +1,35 @@
-td,
-th {
-  padding: 5px;
-  border: 1px solid rgb(190, 190, 190);
-}
+.json-to-table {
+    td,
+    th {
+      padding: 5px;
+      border: 1px solid rgb(190, 190, 190);
+    }
 
-td {
-  text-align: left;
-}
+    td {
+      text-align: left;
+    }
 
-tr:nth-child(even) {
-  background-color: #eee;
-}
+    tr:nth-child(even) {
+      background-color: #eee;
+    }
 
-th[scope="col"] {
-  background-color: #696969;
-  color: #fff;
-}
+    th[scope="col"] {
+      background-color: #696969;
+      color: #fff;
+    }
 
-th[scope="row"] {
-  background-color: #d7d9f2;
-}
+    th[scope="row"] {
+      background-color: #d7d9f2;
+    }
 
-caption {
-  caption-side: bottom;
-}
+    caption {
+      caption-side: bottom;
+    }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: sans-serif;
-  font-size: 0.8rem;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: sans-serif;
+      font-size: 0.8rem;
+    }
 }
