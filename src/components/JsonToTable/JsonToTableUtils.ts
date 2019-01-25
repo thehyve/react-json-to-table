@@ -15,7 +15,7 @@ export default class JsonToTableUtils {
      * Get object type
      */
     public static getObjectType(obj: any): JSONObjectType {
-        if (typeof obj === "object") {
+        if (obj !== null && typeof obj === "object") {
             if (Array.isArray(obj)) {
                 return JSONObjectType.Array;
             } else {
