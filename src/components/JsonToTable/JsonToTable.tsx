@@ -107,7 +107,7 @@ export default class JsonToTable extends React.Component<IJsonToTableProps,
                 <tr key={`__j2t_Arr${idx.toString()}`}>
                     {labels.map(k => {
                         const isValuePrimitive =
-                            JSONToTableUtils.getObjectType(k) === JSONObjectType.Primitive;
+                            JSONToTableUtils.getObjectType(item[k]) === JSONObjectType.Primitive;
                         return isValuePrimitive
                             ? this.renderCell({content: item[k]})
                             : this.renderObject(item[k], k, idx);
