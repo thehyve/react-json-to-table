@@ -71,13 +71,18 @@ export default class JsonToTable extends React.Component<IJsonToTableProps,
         );
     };
 
+    private getCellValue = (content:any) => {
+        const valueDisplay = content === true || content === false ? content.toString() : content;
+        return valueDisplay;
+    };
+    
     private renderCell = (params: {
         content: any;
         colspan?: number;
         isHeader?: boolean;
     }) => {
         const {content, colspan, isHeader} = params;
-        const valueDisplay = isHeader ? <strong>{content}</strong> : content;
+        const valueDisplay = isHeader ? <strong>{this.getCellValue(content)}</strong> : this.getCellValue(content);
         return <td colSpan={colspan ? colspan : 0} key={`__j2t_trObj${valueDisplay}`}>{valueDisplay}</td>;
     };
 
