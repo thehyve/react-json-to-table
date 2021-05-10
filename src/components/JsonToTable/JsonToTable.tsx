@@ -20,8 +20,8 @@ export default class JsonToTable extends React.Component<IJsonToTableProps,
     public render() {
         return (
             <div className={'json-to-table'}>
-                <table key={`__j2t_root_table`}>
-                    <tbody key={`__j2t_root_tbody`}>{this.renderObject(this.props.json, undefined, 0)}</tbody>
+                <table key={`__j2t_root_table${this.generateRandomKey()}`}>
+                    <tbody key={`__j2t_root_tbody${this.generateRandomKey()}`}>{this.renderObject(this.props.json, undefined, 0)}</tbody>
                 </table>
             </div>
         );
@@ -39,9 +39,9 @@ export default class JsonToTable extends React.Component<IJsonToTableProps,
         switch (objType) {
             case JSONObjectType.ObjectWithNonNumericKeys:
                 tmp = header ? (
-                    <table key={`__j2t_tableObj${idx}`}>
+                    <table key={`__j2t_tableObj${idx}${this.generateRandomKey()}`}>
                         <tbody
-                            key={`__j2t_bObj${idx}`}
+                            key={`__j2t_bObj${idx}${this.generateRandomKey()}`}
                         >
                         {this.renderRows(obj)}
                         </tbody>
@@ -52,8 +52,8 @@ export default class JsonToTable extends React.Component<IJsonToTableProps,
                 break;
             case JSONObjectType.Array:
                 tmp = header ? (
-                    <table key={`__j2t_tableArr${idx}`}>
-                        <tbody key={`__j2t_bArr${idx}`}>
+                    <table key={`__j2t_tableArr${idx}${this.generateRandomKey()}`}>
+                        <tbody key={`__j2t_bArr${idx}${this.generateRandomKey()}`}>
                         {this.parseArray(obj)}
                         </tbody>
                     </table>
@@ -65,17 +65,21 @@ export default class JsonToTable extends React.Component<IJsonToTableProps,
         phrase.push(tmp);
         const retval = phrase.map(p => p);
         return header ? (
-            <tr key={`__j2t_trObj${idx}`}>{this.renderCell({content: retval, colspan: 2})}</tr>
+            <tr key={`__j2t_trObj${idx}${this.generateRandomKey()}`}>{this.renderCell({content: retval, colspan: 2})}</tr>
         ) : (
             retval
         );
     };
 
+    private generateRandomKey = () => {
+        return Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+    }
+
     private getCellValue = (content:any) => {
         const valueDisplay = content === true || content === false ? content.toString() : content;
         return valueDisplay;
     };
-    
+
     private renderCell = (params: {
         content: any;
         colspan?: number;
@@ -83,12 +87,12 @@ export default class JsonToTable extends React.Component<IJsonToTableProps,
     }) => {
         const {content, colspan, isHeader} = params;
         const valueDisplay = isHeader ? <strong>{this.getCellValue(content)}</strong> : this.getCellValue(content);
-        return <td colSpan={colspan ? colspan : 0} key={`__j2t_trObj${valueDisplay}`}>{valueDisplay}</td>;
+        return <td colSpan={colspan ? colspan : 0} key={`__j2t_trObj${valueDisplay}${this.generateRandomKey()}`}>{valueDisplay}</td>;
     };
 
     private renderHeader = (labels: any[]) => {
         return (
-            <tr key={`__j2t_trHeader`}>
+            <tr key={`__j2t_trHeader${this.generateRandomKey()}`}>
                 {labels.map((v: string) => {
                     return this.renderCell({content: v});
                 })}
@@ -98,7 +102,7 @@ export default class JsonToTable extends React.Component<IJsonToTableProps,
 
     private renderValues = (values: string[]) => {
         return (
-            <tr key={`__j2t_trArrString`}>
+            <tr key={`__j2t_trArrString${this.generateRandomKey()}`}>
                 {values.map(k => {
                     return this.renderCell({content: k});
                 })}
@@ -109,7 +113,7 @@ export default class JsonToTable extends React.Component<IJsonToTableProps,
     private renderRowValues = (anArray: any[], labels: any[]) => {
         return anArray.map((item, idx) => {
             return (
-                <tr key={`__j2t_Arr${idx.toString()}`}>
+                <tr key={`__j2t_Arr${idx.toString()}${this.generateRandomKey()}`}>
                     {labels.map(k => {
                         const isValuePrimitive =
                             JSONToTableUtils.getObjectType(item[k]) === JSONObjectType.Primitive;
@@ -138,18 +142,18 @@ export default class JsonToTable extends React.Component<IJsonToTableProps,
 
     private renderRow = (k: string, v: string | number, idx: number) => {
         return (
-            <tr key={`__j2t_tr${idx}`}>
-                <td key={`__j2t_tdk${idx}`}>
+            <tr key={`__j2t_tr${idx}${this.generateRandomKey()}`}>
+                <td key={`__j2t_tdk${idx}${this.generateRandomKey()}`}>
                     <strong>{k}</strong>
                 </td>
-                <td key={`__j2t_tdv${idx}`}>{v}</td>
+                <td key={`__j2t_tdv${idx}${this.generateRandomKey()}`}>{v}</td>
             </tr>
         );
     };
 
     private renderRowHeader = (label: string) => {
         return (
-            <div key={`__j2t_rw${label}`}>
+            <div key={`__j2t_rw${label}${this.generateRandomKey()}`}>
                 <strong>{label}</strong>
             </div>
         );
