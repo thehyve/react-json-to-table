@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import "./JsonToTable.css";
 import { JSONObjectKeys, JSONObjectType } from "./JsonToTableUtils";
 import JSONToTableUtils from "./JsonToTableUtils";
 
